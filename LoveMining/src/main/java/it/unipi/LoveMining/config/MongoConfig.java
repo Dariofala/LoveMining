@@ -6,6 +6,7 @@ import com.mongodb.ReadPreference;
 import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
@@ -16,13 +17,17 @@ import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 @Configuration
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
+    // Connection string from application.properties (env variable MONGODB_URI)
+    @Value("${app.mongodb.uri}")
+    private String mongoUri;
+
     @Override
     protected String getDatabaseName() { return "LoveMining"; }
 
     @Override
     @Bean
     public MongoClient mongoClient() {
-        String uri = "mongodb://10.1.1.14:27017,10.1.1.15:27017,10.1.1.16:27017/?replicaSet=lsmdb";
+        String uri = mongoUri;
 
         // Write and Read preferences
         MongoClientSettings settings = MongoClientSettings.builder().applyConnectionString(new ConnectionString(uri))

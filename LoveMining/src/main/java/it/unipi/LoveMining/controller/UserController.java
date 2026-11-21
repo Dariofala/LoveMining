@@ -208,7 +208,7 @@ public class UserController {
 
         boolean isAdmin = authentication.getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        if (isAdmin) return ResponseEntity.status(403).body("ADMINs cannot dislike users.");
+        if (isAdmin) return ResponseEntity.status(403).body("ADMINs cannot receive recommendations.");
 
         if (!locationFilter.equals("City") && !locationFilter.equals("State")) { // Expects "City" or "State"
             return ResponseEntity.badRequest().body("Invalid filter. Use 'City' or 'State'.");
